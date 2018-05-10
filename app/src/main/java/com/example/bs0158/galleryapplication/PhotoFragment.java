@@ -49,7 +49,31 @@ public class PhotoFragment extends Fragment {
          mPhotoRecylerview.setLayoutManager(new GridLayoutManager(getActivity(),3));
          mCommunication=(Communication)getActivity();
          getAllPhotosInformation();
+         getUserInfo();
          return view;
+    }
+
+    private void getUserInfo(){
+        ApiInterface apiservice=ApiClient.getClient2("Bearer PJApHJ6oAZwWXVKGsKXnea8N38yDu6d-sH9ZVdCWiauWG8ifilyUH_I6P-sZzXtyz_GfVSnRyQA_Yq7CXypTImxKT6TETc5LQ-XKWjbxEITwDbyJotbOQIgqv3yd7dbtkP7yq6QeUWS8zKT6tvQHBESM9u7SW5Ty19YcCrhb8Q1IJ-XmulMM12QQs21B2vU7BoTZ2J-U2YghZOy9Gka68H17U-tkEl7OpxljKAnvZK4")
+                .create(ApiInterface.class);
+        Employee emp=new Employee();
+        emp.setEmpcode("1000069");
+        Call<User> userinfo=apiservice.getUserInfo(emp);
+        userinfo.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                User user=response.body();
+                Log.d(TAG,user.getBloodGroup());
+
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.d(TAG,"Exception: "+t.getMessage());
+
+            }
+        });
+
     }
 
     private void getAllPhotosInformation(){
@@ -91,7 +115,7 @@ public class PhotoFragment extends Fragment {
                 }
             });
 
-            
+
 
         }
 
